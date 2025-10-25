@@ -65,4 +65,11 @@ The city chants, orators amplify the lie, and the giant grows invincible—until
 
 ---
 
-## Project Structure
+## Roadmap (Milestones)
+- **M1 — Vertical Slice (Ember Fell)**: 1 boss, brittle window, orator system, HUD basics  
+- **M2 — Harbor Crown**: Rope moments, storm VFX, phase change  
+- **M3 — Pale Meridian**: Gear de-sync gimmick, gong parry, chapter cards & trailer  
+- **M4 — Systems Pass**: Oaths/Burdens, NG+ flags, meta progression  
+- **M5 — Steam Playtest**: Perf, accessibility, bugfixes
+
+---
