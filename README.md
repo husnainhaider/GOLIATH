@@ -1,7 +1,7 @@
 # GOLIATH AND THE SWORD OF TRUTH
 High-fidelity, boss-forward action game in **Unity 2022.3.62f2 (HDRP)**.  
 **Tagline:** *Break the boast. Break the giant.*
-
+—<img width="1536" height="1024" alt="Banner" src="https://github.com/user-attachments/assets/d7b53035-0a0e-4bc0-809e-4bab20739d1f" />
 ---
 
 ## TL;DR
