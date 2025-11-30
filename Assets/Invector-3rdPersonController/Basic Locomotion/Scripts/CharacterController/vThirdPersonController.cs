@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Invector.vCharacterController
 {
@@ -20,21 +19,11 @@ namespace Invector.vCharacterController
         /// </summary>
         /// <param name="targetPosition"></param>
         public virtual void MoveToPosition(Vector3 targetPosition)
-        {        
+        {
             Vector3 dir = targetPosition - transform.position;
             dir.y = 0;
-            /*dir = dir.normalized * Mathf.Min(1f, dir.magnitude);*/           /*That is to make smootly stop*/
-
-            if (dir.magnitude < 0.1f)
-            {
-                input = Vector3.zero;
-                moveDirection = Vector3.zero;
-            }
-            else
-            {
-                input = transform.InverseTransformDirection(dir.normalized);
-                moveDirection = dir.normalized;              
-            }
+            moveDirection = dir.normalized;
+            input = transform.InverseTransformDirection(dir.normalized);
         }
 
         /// <summary>
@@ -106,7 +95,7 @@ namespace Invector.vCharacterController
                 MoveCharacter(moveDirection);
             }
         }
-        
+
         /// <summary>
         /// Manage the Control Rotation Type of the Player
         /// </summary>
@@ -126,10 +115,7 @@ namespace Invector.vCharacterController
                     // calculate input smooth
                     inputSmooth = Vector3.Lerp(inputSmooth, input, (isStrafing ? strafeSpeed.movementSmooth : freeSpeed.movementSmooth) * Time.deltaTime);
                 }
-                Vector3 dir = (isStrafing && isGrounded && (!isSprinting || sprintOnlyFree == false) || (freeSpeed.rotateWithCamera && input == Vector3.zero)) && rotateTarget ? rotateTarget.forward : moveDirection;
-
-                //RotationTest(dir);
-
+                Vector3 dir = (isStrafing && (!isSprinting || sprintOnlyFree == false) || (freeSpeed.rotateWithCamera && input == Vector3.zero)) && rotateTarget ? rotateTarget.forward : moveDirection;
                 RotateToDirection(dir);
             }
         }
@@ -156,7 +142,7 @@ namespace Invector.vCharacterController
         /// <param name="referenceTransform"></param>
         public virtual void UpdateMoveDirection(Transform referenceTransform = null)
         {
-            if (isRolling && !rollControl /*|| input.magnitude <= 0.01*/)
+            if (isRolling && !rollControl || input.magnitude <= 0.01)
             {
                 moveDirection = Vector3.Lerp(moveDirection, Vector3.zero, (isStrafing ? strafeSpeed.movementSmooth : freeSpeed.movementSmooth) * Time.deltaTime);
                 return;
@@ -184,12 +170,8 @@ namespace Invector.vCharacterController
         /// <param name="value"></param>
         public virtual void Sprint(bool value)
         {
-            // EM TESTE FORAM REMOVIDOS ALGUMAS CONDIÇÕES
-            //var sprintConditions = (currentStamina > 0 && hasMovementInput && isGrounded &&
-            //    !(isStrafing && !strafeSpeed.walkByDefault && (horizontalSpeed >= 0.5 || horizontalSpeed <= -0.5 || verticalSpeed <= 0.1f) && !sprintOnlyFree));
-
-            var sprintConditions =  (!isCrouching  || (!inCrouchArea && CanExitCrouch())) && (currentStamina > 0 && hasMovementInput &&
-                !(isStrafing && (horizontalSpeed >= 0.5 || horizontalSpeed <= -0.5 || verticalSpeed <= 0.1f) && !sprintOnlyFree));
+            var sprintConditions = (currentStamina > 0 && hasMovementInput && isGrounded /*&& !customAction*/ &&
+                !(isStrafing && !strafeSpeed.walkByDefault && (horizontalSpeed >= 0.5 || horizontalSpeed <= -0.5 || verticalSpeed <= 0.1f) && !sprintOnlyFree));
 
             if (value && sprintConditions)
             {
@@ -203,9 +185,6 @@ namespace Invector.vCharacterController
                         if (isSprinting)
                         {
                             OnStartSprinting.Invoke();
-
-                            // TESTE PARA SAIR DO WALKONLY QUANDO SPRINTA
-                            alwaysWalkByDefault = false;
                         }
                         else
                         {
@@ -215,9 +194,6 @@ namespace Invector.vCharacterController
                     else if (!isSprinting)
                     {
                         OnStartSprinting.Invoke();
-
-                        // TESTE PARA SAIR DO WALKONLY QUANDO SPRINTA
-                        alwaysWalkByDefault = false;
                         isSprinting = true;
                     }
                 }
@@ -280,18 +256,17 @@ namespace Invector.vCharacterController
         public virtual void Jump(bool consumeStamina = false)
         {
             // trigger jump behaviour
-            jumpCounter = jumpTimer;            
+            jumpCounter = jumpTimer;
+            isJumping = true;
             OnJump.Invoke();
 
             // trigger jump animations
             if (input.sqrMagnitude < 0.1f)
             {
-                StartCoroutine(DelayToJump());
                 animator.CrossFadeInFixedTime("Jump", 0.1f);
             }
             else
             {
-                isJumping = true;
                 animator.CrossFadeInFixedTime("JumpMove", .2f);
             }
 
@@ -301,12 +276,6 @@ namespace Invector.vCharacterController
                 ReduceStamina(jumpStamina, false);
                 currentStaminaRecoveryDelay = 1f;
             }
-        }
-
-        protected IEnumerator DelayToJump()
-        {
-            yield return new WaitForSeconds(jumpStandingDelay);
-            isJumping = true;
         }
 
         /// <summary>

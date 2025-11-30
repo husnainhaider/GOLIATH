@@ -147,11 +147,6 @@ namespace Invector
 
         protected virtual void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
-            if (currentController == null)
-            {
-                return;
-            }
-
             if (currentController.currentHealth > 0)
             {
                 if (displayInfoInFadeText && vHUDController.instance)
@@ -168,6 +163,7 @@ namespace Invector
 
             OnReloadGame.Invoke();
             FindPlayer();
+
         }
 
         protected virtual void FindPlayer()

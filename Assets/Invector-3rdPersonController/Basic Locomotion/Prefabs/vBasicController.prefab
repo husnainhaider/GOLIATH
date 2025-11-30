@@ -1931,7 +1931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openCloseEvents: 0
   openCloseWindow: 1
-  selectedToolbar: 2
+  selectedToolbar: 5
   _isDead: 0
   _currentHealth: 0
   isImmortal: 0
@@ -2003,18 +2003,20 @@ MonoBehaviour:
   OnStaminaEnd:
     m_PersistentCalls:
       m_Calls: []
-  crouchHeightReduction: 1.5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
   autoCrouchLayer:
     serializedVersion: 2
     m_Bits: 1
-  crouchHeadDetect: 0.95
+  headDetect: 0.95
   speedMultiplier: 1
   rotateByWorld: 0
   locomotionType: 0
   freeSpeed:
     movementSmooth: 6
     animationSmooth: 0.2
-    rotationSpeed: 8
+    rotationSpeed: 16
     walkByDefault: 0
     rotateWithCamera: 0
     walkSpeed: 2
@@ -2024,130 +2026,26 @@ MonoBehaviour:
   strafeSpeed:
     movementSmooth: 6
     animationSmooth: 0.2
-    rotationSpeed: 8
+    rotationSpeed: 16
     walkByDefault: 0
     rotateWithCamera: 1
     walkSpeed: 2
     runningSpeed: 4
     sprintSpeed: 6
     crouchSpeed: 2
-  walkRotationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.20340729
-      value: 1.011383
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  runRotationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.20340729
-      value: 1.011383
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  sprintRotationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.20340729
-      value: 1.011383
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  currentRotationSpeed: 0
-  rotationCurveTime: 0
-  timeToDisableHorizontal: 1
-  useHorizontal: 0
-  rotationTimer: 0
   disableAnimations: 0
   useRootMotion: 0
   useLeanMovementAnim: 1
-  leanSmooth: 0.1
+  leanSmooth: 0.05
   useTurnOnSpotAnim: 1
   randomIdleTime: 0
   useContinuousSprint: 1
   sprintOnlyFree: 1
+  crouchHeightReduction: 1.5
   customFixedTimeStep: 2
   jumpWithRigidbodyForce: 0
   jumpAndRotate: 1
   jumpTimer: 0.3
-  jumpStandingDelay: 0.25
   jumpHeight: 4
   airSpeed: 4
   airSmooth: 6
@@ -2163,25 +2061,16 @@ MonoBehaviour:
   rollSpeed: 0
   rollRotationSpeed: 20
   rollUseGravity: 1
-  rollUseGravityTime: 0.1
+  rollUseGravityTime: 0
   timeToRollAgain: 0.75
   noDamageWhileRolling: 1
   noActiveRagdollWhileRolling: 1
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 1
   groundCheckMethod: 1
   groundDetectionDistance: 10
   useSnapGround: 1
   snapPower: 0.5
   groundMinDistance: 0.1
   groundMaxDistance: 0.5
-  stopMoveLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  stopMoveRayDistance: 1
-  stopMoveMaxHeight: 1.6
-  stopMoveCheckMethod: 2
   useSlopeLimit: 1
   slopeLimit: 45
   stopSlopeMargin: 20
@@ -2209,6 +2098,7 @@ MonoBehaviour:
   applyingStepOffset: 0
   inputSmooth: {x: 0, y: 0, z: 0}
   moveDirection: {x: 0, y: 0, z: 0}
+  newSpeed: 0
   matchTarget: {fileID: 0}
 --- !u!114 &114000013620396000
 MonoBehaviour:

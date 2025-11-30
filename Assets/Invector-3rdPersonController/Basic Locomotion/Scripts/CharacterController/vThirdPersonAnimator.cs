@@ -152,7 +152,7 @@ namespace Invector.vCharacterController
                     animator.SetFloat(vAnimatorParameters.RotationMagnitude, rotationMagnitude, leanSmooth, Time.fixedDeltaTime);
                 }
                 else if (useTurnOnSpotAnim && inputMagnitude < 0.1f)
-                {
+                {                   
                     animator.SetFloat(vAnimatorParameters.RotationMagnitude, (float)System.Math.Round(rotationMagnitude, 2), rotationMagnitude == 0 ? 0.1f : 0.01f, Time.fixedDeltaTime);
                 }
             }
@@ -173,6 +173,14 @@ namespace Invector.vCharacterController
             else
             {
                 var mag = newInput.magnitude;
+                //if (mag > .1f && mag < .5f)
+                //{
+                //    mag = 0.5f;
+                //}
+                //else if (mag > .6f)
+                //{
+                //    mag = 1f;
+                //}
                 sprintWeight = Mathf.Lerp(sprintWeight, isSprinting ? 1f : 0f, (isStrafing ? strafeSpeed.movementSmooth : freeSpeed.movementSmooth) * Time.fixedDeltaTime);
                 inputMagnitude = Mathf.Clamp(Mathf.Lerp(mag, mag + 0.5f, sprintWeight), 0, isSprinting ? sprintSpeed : runningSpeed);
             }

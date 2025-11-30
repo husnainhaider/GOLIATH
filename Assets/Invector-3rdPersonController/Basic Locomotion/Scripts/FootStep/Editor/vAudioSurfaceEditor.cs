@@ -60,10 +60,10 @@ namespace Invector
             }
             GUILayout.BeginVertical();
             GUILayout.BeginHorizontal();
-            list.isExpanded=EditorGUILayout.Foldout( list.isExpanded ,list.displayName,true);
+            EditorGUILayout.PropertyField(list, false);
             //GUILayout.Box(list.arraySize.ToString("00"));       
             GUILayout.EndHorizontal();
-           
+
             if (list.isExpanded)
             {
                 if (useDraBox)

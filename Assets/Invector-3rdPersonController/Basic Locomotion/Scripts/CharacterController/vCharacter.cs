@@ -27,7 +27,7 @@ namespace Invector.vCharacterController
         [vEditorToolbar("Debug", order = 9)]
         [HideInInspector]
         public bool debugActionListener;
-        public Animator animator { get; protected set; }
+        public Animator animator { get; private set; }
         public bool ragdolled { get; set; }
 
         [vEditorToolbar("Events")]
@@ -74,7 +74,7 @@ namespace Invector.vCharacterController
             }
         }
 
-        protected bool _isCrouching;
+        private bool _isCrouching;
 
         #endregion        
 

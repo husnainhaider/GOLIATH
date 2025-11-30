@@ -189,59 +189,53 @@ namespace Invector.vCharacterController.vActions
             {
                 if (key)
                 {
-                    try
+                    vTriggerGenericAction action = actions[key];
+                    var screenP = mainCamera ? mainCamera.WorldToScreenPoint(key.transform.position) : screenCenter;
+                    if (mainCamera)
                     {
-                        vTriggerGenericAction action = actions[key];
-                        var screenP = mainCamera ? mainCamera.WorldToScreenPoint(key.transform.position) : screenCenter;
-                        if (mainCamera)
+
+                        bool isValid = action.enabled && action.gameObject.activeInHierarchy && (!action.activeFromForward && (screenP - screenCenter).magnitude < distance || IsInForward(action.transform, action.forwardAngle) && (screenP - screenCenter).magnitude < distance);
+                        if (isValid)
                         {
-
-                            bool isValid = action.enabled && action.gameObject.activeInHierarchy && (!action.activeFromForward && (screenP - screenCenter).magnitude < distance || IsInForward(action.transform, action.forwardAngle) && (screenP - screenCenter).magnitude < distance);
-                            if (isValid)
+                            distance = (screenP - screenCenter).magnitude;
+                            if (_targetAction && _targetAction != action)
                             {
-                                distance = (screenP - screenCenter).magnitude;
-                                if (_targetAction && _targetAction != action)
+                                if (actions[_targetAction._collider].isValid)
                                 {
-                                    if (actions[_targetAction._collider].isValid)
-                                    {
-                                        _targetAction.OnInvalidate.Invoke(gameObject);
-                                    }
+                                    _targetAction.OnInvalidate.Invoke(gameObject);
+                                }
 
-                                    _targetAction = action;
-                                }
-                                else if (_targetAction == null)
-                                {
-                                    _targetAction = action;
-                                }
+                                _targetAction = action;
                             }
-                            else
+                            else if (_targetAction == null)
                             {
-                                if (actions[action._collider].isValid)
-                                {
-                                    action.OnInvalidate.Invoke(gameObject);
-                                }
-
-                                OnExitTriggerAction.Invoke(triggerAction);
+                                _targetAction = action;
                             }
                         }
                         else
                         {
-                            if (!_targetAction)
+                            if (actions[action._collider].isValid)
                             {
-                                _targetAction = action;
+                                action.OnInvalidate.Invoke(gameObject);
                             }
-                            else
-                            {
-                                if (actions[action._collider].isValid)
-                                {
-                                    action.OnInvalidate.Invoke(gameObject);
-                                }
-                                OnExitTriggerAction.Invoke(triggerAction);
-                            }
+
+                            OnExitTriggerAction.Invoke(triggerAction);
                         }
-                    }catch
+                    }
+                    else
                     {
-                        break;
+                        if (!_targetAction)
+                        {
+                            _targetAction = action;
+                        }
+                        else
+                        {
+                            if (actions[action._collider].isValid)
+                            {
+                                action.OnInvalidate.Invoke(gameObject);
+                            }
+                            OnExitTriggerAction.Invoke(triggerAction);
+                        }
                     }
                 }
                 else
